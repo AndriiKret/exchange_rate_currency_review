@@ -33,7 +33,7 @@ def get_current_info(currency):
 
 def get_info_by_date(currency, date):
     """Returns dictionary with info of given currency by given date"""
-    if currency.isdigit() is False and len(currency) is 3:
+    if currency.isdigit() is False and len(currency) == 3:
         info = requests.get(API_URL + f'exchange?valcode={currency}&date={date_for_url(date)}&json').json()
         if info:
             return info[0]
@@ -70,14 +70,8 @@ def get_clear_date(date_str):
 def date_for_url(date_datetime):
     """Converts datetime object into string for easy inserting into url"""
     result_str = ''
-    if len(str(date_datetime.year)) == 1:
-        result_str += '000' + str(date_datetime.year)
-    elif len(str(date_datetime.year)) == 2:
-        result_str += '00' + str(date_datetime.year)
-    elif len(str(date_datetime.year)) == 3:
-        result_str += '0' + str(date_datetime.year)
-    else:
-        result_str += str(date_datetime.year)
+    year_difference = 4 - len(str(date_datetime.year))
+    result_str = '0' * year_difference + str(date_datetime.year)
     if len(str(date_datetime.month)) < 2:
         result_str += '0' + str(date_datetime.month)
     else:
